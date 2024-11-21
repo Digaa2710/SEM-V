@@ -38,6 +38,9 @@ def addInQueue():
            
             data = conn.recv(1024)
             if not data or data.decode() == "end":
+                if len(received_data)>0:
+                     print(f"Remaining data: {received_data}")
+
                 print("Client has ended communication")
                 break
 
