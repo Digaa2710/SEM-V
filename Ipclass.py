@@ -14,15 +14,13 @@ elif(int(octets[0])>=192 and int(octets[0])<=223):
 elif(int(octets[0])>=224 and int(octets[0])<=239):
     ip_class='D'
     subnet_class=4
-else:
-    ip_class='E'
-    subnet_class=5
+
 print(f"Ip belongs to class:{ip_class}")
 for i in range(subnet_class):
     subnet_split[i]='255'
 # print(subnet_split)
-subnet_mass=('.').join(subnet_split)
-print(f"Subnet mass of given class is :{subnet_mass}")
+subnet_mask=('.').join(subnet_split)
+print(f"Subnet mask of given class is :{subnet_mask}")
 
 result = [str(int(a) & int(b)) for a, b in zip(octets, subnet_split)]
 result_ip = '.'.join(result)
