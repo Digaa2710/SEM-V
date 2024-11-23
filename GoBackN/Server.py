@@ -12,10 +12,10 @@ s.listen(1)
 
 conn, addr = s.accept()
 print('Connected by', addr)
-TICK_SPEED = float(conn.recv(1024).decode())
+TICK_SPEED =0.2
 time.sleep(1)
 seq_nums = int(conn.recv(1024).decode())
-window_size = 1
+# window_size = 1
 
 ack = 0
 curr = 0

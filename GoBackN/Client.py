@@ -4,11 +4,12 @@ import time
 HOST = '192.168.29.225'
 PORT = 5000
 
+
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 s.connect((HOST, PORT))
 TICK_SPEED = .2
-s.send(str(TICK_SPEED).encode())
+
 seq_nums = int(input("Enter the number of sequence numbers: "))
 window_size = int(input("Enter the window size: "))
 time.sleep(1)
