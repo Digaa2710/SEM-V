@@ -29,8 +29,8 @@ def generate_ACK(conn):
         send_message = f"ACK for {received_data}"
         conn.sendall(send_message.encode())
     
-    conn.close()  # Close the connection when done
+    conn.close()  
 
 generate_ACK(conn)
 
-server_socket.close()  # Close the server socket when communication is over
+server_socket.close() 
