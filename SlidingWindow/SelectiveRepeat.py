@@ -33,6 +33,6 @@ while ack_received<total_frames:
 
     while frames_send<total_frames and sent[frames_send]:
         frames_send+=1
-
+#taken from gpt
 
 
