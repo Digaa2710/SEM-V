@@ -34,3 +34,21 @@ for i in range(total_parity):
     final[-parityPos[i]]=str(generate(final,parityPos[i],parity))
 
 print(final)
+final=['1','1','1','1','1','0','1','1','0']#sample input for error detction and correction
+
+error=0
+for i in range(total_parity):
+    if generate(final,parityPos[i],parity):
+        error+=2**i #converts to decimal
+
+if error:
+    print(f"Error at position:{error}")
+    if final[-error]=='1':
+        final[-error]='0'
+    else:
+        final[-error]='1'
+
+else :
+    print("No error")
+
+print(final)
