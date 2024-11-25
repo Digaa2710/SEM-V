@@ -28,7 +28,7 @@ def BellmanFord():
         for v in range(n):
             if graph[u][v]!=0 and distance[v]>distance[u]+graph[u][v]:
                 return True
-            return False
+    return False
     
 answer=BellmanFord()
 if answer=='True':
