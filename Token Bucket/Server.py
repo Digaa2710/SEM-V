@@ -47,11 +47,14 @@ def handleData():
             if len(tokens)>0:
                 tokens.pop(0)
                 print(f"Data:{data} added to bucket")
+                conn.send(data.encode())
                 received_data.append(data)
                 print(f"Bucket contains:{received_data}")
 
             else:
                 print("No tokens discarding data")
+                message="No tokens available"
+                conn.send(message.encode())
 
 token_thread=threading.Thread(target=handleTokens,daemon=True)
 token_thread.start()

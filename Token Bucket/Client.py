@@ -9,6 +9,8 @@ client_socket.connect((HOST,PORT))
 while True:
     message=input("Enter message:")
     client_socket.send(message.encode())
+    response=client_socket.recv(1024).decode()
+    print(f"Response:{response}")
     if message=='end':
         break
 print("End")

@@ -1,5 +1,6 @@
 import socket
 import time
+import random
 
 HOST = '0.0.0.0'  # Server's IP address
 PORT = 5001  # Port number
@@ -19,8 +20,10 @@ def generate_ACK(conn):
         if not data:
             break
         received_data = data.decode()
+        if random.choice([True,False]):
+            print(f"Received data: {received_data}")
         time.sleep(2)
-        print(f"Received data: {received_data}")
+        
         
         if received_data == "end":
             print("Client has ended communication")
