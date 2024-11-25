@@ -1,61 +1,65 @@
-import socket 
-import threading 
+import socket
 import time
+import threading
 
-MAX_SIZE = 5 
-LEAK_RATE = 0.5
-HOST = '0.0.0.0'
-PORT = 5001
+HOST='0.0.0.0'
+PORT=5000
 
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.bind((HOST, PORT))
+MAX_SIZE=5
+
+server_socket=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+server_socket.bind((HOST,PORT))
 
 server_socket.listen()
-print(f"Server is listening on {HOST}:{PORT}...")
-
-# Accept a client connection
-conn, addr = server_socket.accept()
-print(f"Connected by {addr}")
+conn,addr=server_socket.accept()
 
 tokens=[]
-incoming_data=[]
+received_data=[]
 
-token_lock = threading.Lock()
-
-def generate_token():
-    
+def leaky():
     while True:
-        
-        with token_lock:
-            if len(tokens)<MAX_SIZE:
-                tokens.append('*')
-            else:
-                print("Token bucket is full")
-        time.sleep(1/LEAK_RATE)
-        
-def Data():
-     with conn:
+        time.sleep(3)
+        if received_data:
+            removed_data=received_data.pop(0)
+            print(f"Removed data :{removed_data}")
+        else:
+            print("Bucket is empty")
+
+def handleTokens():
+    while True:
+        if len(tokens)<MAX_SIZE:
+            tokens.append('*')
+            print(f"Token bucket looks like :{tokens}")
+        else:
+            print("Token bucket is full")
+        time.sleep(1)
+
+def handleData():
+    with conn:
         while True:
-           
-            data = conn.recv(1024)
-            if not data or data.decode() == "end":
+            data=conn.recv(1024).decode()
+            if not data or data=='end':
                 if len(tokens)>0:
-                    print(f"Remaining data:{incoming_data}")
-                print("Client has ended communication")
+                    print(f"Tokens left:{tokens}")
+                print("Connection ended by client")
                 break
 
-            with token_lock:
-                if len(tokens) != 0:
-                    incoming_data.append(data.decode())
-                    tokens.pop(0)
-                    print(f"Received data: {incoming_data}")
-                else:
-                    print("Bucket is empty. Discarding new data.")
-Token_thread = threading.Thread(target=generate_token, daemon=True)
-Token_thread.start()
+            if len(tokens)>0:
+                tokens.pop(0)
+                print(f"Data:{data} added to bucket")
+                received_data.append(data)
+                print(f"Bucket contains:{received_data}")
 
+            else:
+                print("No tokens discarding data")
 
-Data()
+token_thread=threading.Thread(target=handleTokens,daemon=True)
+token_thread.start()
 
-# Close the server socket
+leaky_thread=threading.Thread(target=leaky,daemon=True)
+leaky_thread.start()
+
+handleData()
+
 server_socket.close()
+
