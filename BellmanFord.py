@@ -33,4 +33,5 @@ def BellmanFord():
 answer=BellmanFord()
 if answer=='True':
     print("Negative edges exist")
-print("Negative exist doesn't exist")
+else:
+    print("Negative exist doesn't exist")
