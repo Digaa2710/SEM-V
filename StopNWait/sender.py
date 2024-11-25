@@ -19,7 +19,18 @@ while True:
 
     data = client_socket.recv(1024)
     time.sleep(2) #just for slowing the process
-    print(data.decode())
+    # print(data.decode())
+    if data.decode()=='ACK':
+        print(f"Received data:{data.decode()}")
+    elif data.decode()=='NACK':
+       while data.decode() == "NACK":
+            print("Received NACK")
+            print(f"Resending {message}")
+            client_socket.sendall(message.encode())
+            time.sleep(2) #just for slowing the process
+            data = client_socket.recv(1024)
+       print("Received ACK")
+
 
 print("Connection ended")
 
